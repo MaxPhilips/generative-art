@@ -29,8 +29,8 @@ end
 
 abort('Pass in a title with -t') unless @title
 
-FileUtils.cp_r '.template', @title
+FileUtils.cp_r 'art/.template', 'art/' + @title
 
-file_edit("#{@title}/index.html", /@artwork@/, @title)
+file_edit("art/#{@title}/index.html", /@artwork@/, @title)
 
-FileUtils.mv "#{@title}/template.js", "#{@title}/#{@title}.js"
+FileUtils.mv "art/#{@title}/template.js", "art/#{@title}/#{@title}.js"

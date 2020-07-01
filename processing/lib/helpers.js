@@ -1,28 +1,40 @@
-// get a base64 string of length 32
-var xmur3Input = base64String(32);
-console.log(xmur3Input);
-// calls to seed() yield 32-bit hash values
-var seed = xmur3(xmur3Input);
+let xmur3Input, seed;
+randomInitialize();
+
+function randomInitialize(base64) {
+  // set xmur3Input to method arg, falling back to random 32-character base64 string
+  xmur3Input = typeof base64 !== 'undefined' ? base64 : base64String(32);
+  console.log('xmur3Input: ' + xmur3Input);
+
+  // convert base64 value to a 32-bit hash value
+  seed = xmur3(xmur3Input);
+  console.log('seed: ' + seed);
+}
+
+function redrawRandomly() {
+  randomInitialize();
+  redraw();
+}
+
+function redrawSystematically() {
+  randomInitialize(xmur3Input);
+  redraw();
+}
 
 /**
  * Controls the client.
  */
 function keyPressed() {
   if (keyCode === RIGHT_ARROW) {
-    xmur3Input = base64String(32);
-    console.log(xmur3Input);
-    seed = xmur3(xmur3Input);
-
-    draw();
+    redrawRandomly();
   } else if (keyCode === 83) {
     // 'S' key
     saveCanvas(filename(), 'png');
   }
 }
 
-
 /**
- * Returns the artwork title for filenames.
+ * Returns a filename.
  */
 function filename() {
   return [filenameTitle(), filenameDate(), xmur3Input].join('_');
@@ -74,12 +86,12 @@ function xmur3(str) {
     h = h << 13 | h >>> 19;
   }
 
-  return function() {
+  // return function() {
     h = Math.imul(h ^ h >>> 16, 2246822507),
     h = Math.imul(h ^ h >>> 13, 3266489909);
 
     return (h ^= h >>> 16) >>> 0;
-  }
+  // }
 }
 
 /**

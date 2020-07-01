@@ -1,8 +1,8 @@
 // Constants
 const Y_AXIS = 1;
 const X_AXIS = 2;
-const WIDTH = 640;
-const HEIGHT = 400;
+const WIDTH = 1080;
+const HEIGHT = 720;
 let c1, c2, c3, c4, c5;
 
 function setup() {
@@ -11,7 +11,7 @@ function setup() {
 }
 
 function draw() {
-  randomSeed(seed());
+  randomSeed(seed);
 
   setGradientColors(25);
 
