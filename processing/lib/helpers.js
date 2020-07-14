@@ -1,14 +1,17 @@
 let xmur3Input, seed;
 randomInitialize();
 
-function randomInitialize(base64) {
+function randomInitialize(base64, log = true) {
   // set xmur3Input to method arg, falling back to random 32-character base64 string
   xmur3Input = typeof base64 !== 'undefined' ? base64 : base64String(32);
-  console.log('xmur3Input: ' + xmur3Input);
 
   // convert base64 value to a 32-bit hash value
   seed = xmur3(xmur3Input);
-  console.log('seed: ' + seed);
+
+  if (log) {
+    console.log('xmur3Input: ' + xmur3Input);
+    console.log('seed: ' + seed);
+  }
 }
 
 function redrawRandomly() {
@@ -17,7 +20,7 @@ function redrawRandomly() {
 }
 
 function redrawSystematically() {
-  randomInitialize(xmur3Input);
+  randomInitialize(xmur3Input, false);
   redraw();
 }
 

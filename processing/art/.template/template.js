@@ -1,9 +1,8 @@
-const WIDTH = 640;
-const HEIGHT = 400;
-
 function setup() {
-  createCanvas(WIDTH, HEIGHT);
+  createCanvas(640, 400);
   noLoop();
+
+  colorMode(HSB);
 }
 
 function draw() {
