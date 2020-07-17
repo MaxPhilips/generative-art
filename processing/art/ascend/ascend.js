@@ -1,12 +1,9 @@
-const WIDTH = 640;
-const HEIGHT = 400;
-
 const OVERSHOT = 0.1;
 
 let history = false;
 
 function setup() {
-  createCanvas(WIDTH, HEIGHT);
+  createCanvas(640, 400);
   noLoop();
 
   // hue, saturation, brightness
@@ -32,16 +29,16 @@ function draw() {
 
     for (
       // start a bit below the bottom edge of the canvas
-      var y = HEIGHT + HEIGHT * OVERSHOT;
+      var y = height + height * OVERSHOT;
       // end a bit above the top edge of the canvas
-      y > -HEIGHT * OVERSHOT;
+      y > -height * OVERSHOT;
       // step ~pointsPerLine times
-      y = y - randomGaussian((HEIGHT + 2 * OVERSHOT) / pointsPerLine, 1)
+      y = y - randomGaussian((height + 2 * OVERSHOT) / pointsPerLine, 1)
     ) {
       controlPoints.push(
         createVector(
-          WIDTH / 2 + randomGaussian(0, standardDistribution * i / iterations),
-          // WIDTH / 2 + random(-standardDistribution * i / iterations, standardDistribution * i / iterations),
+          width / 2 + randomGaussian(0, standardDistribution * i / iterations),
+          // width / 2 + random(-standardDistribution * i / iterations, standardDistribution * i / iterations),
           y
         )
       );
@@ -52,6 +49,6 @@ function draw() {
     // strokeWeight(5 * i / iterations);
     drawLine(chaikinCurve(controlPoints, 0.75, 4));
     // stroke(0, 0, 0);
-    // line(WIDTH / 2, HEIGHT, WIDTH / 2, 0);
+    // line(width / 2, height, width / 2, 0);
   }
 }
