@@ -16,6 +16,8 @@ function drawLine(controlPoints) {
  * @param {p5.Vector[]} controlPoints - The points to connect
  * @param {number} ratio - The ratio to cut at
  * @param {number} iterations - The number of cuts
+ *
+ * @returns {p5.Vector[]} - A list of control points representing a Chaikin curve
  */
 function chaikinCurve(controlPoints, ratio, iterations) {
   if (iterations == 0)
@@ -58,6 +60,8 @@ function chaikinCurve(controlPoints, ratio, iterations) {
  * @param {p5.Vector} p1 - The first point
  * @param {p5.Vector} p2 - The second point
  * @param {number} ratio - The ratio to cut at
+ *
+ * @returns {p5.Vector[]} - A list of two points representing cuts along a line
  */
 function chaikinCut(p1, p2, ratio) {
   // if ratio is greater than 0.5 flip it so we avoid cutting across the midpoint of the line.
