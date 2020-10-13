@@ -29,8 +29,12 @@ end
 
 abort('Pass in a title with -t') unless @title
 
-FileUtils.cp_r 'art/.template', 'art/' + @title
+base_dir = File.expand_path('..', __dir__)
+art_dir = base_dir + '/art/'
+title_dir = art_dir + @title
 
-file_edit("art/#{@title}/index.html", /@artwork@/, @title)
+FileUtils.cp_r art_dir + '.template', title_dir
 
-FileUtils.mv "art/#{@title}/template.js", "art/#{@title}/#{@title}.js"
+file_edit("#{title_dir}/index.html", /@artwork@/, @title)
+
+FileUtils.mv "#{title_dir}/template.js", "#{title_dir}/#{@title}.js"
