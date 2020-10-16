@@ -1,12 +1,14 @@
 // Forked from https://github.com/andrewdcampbell/jsfireworks/blob/master/sketch.js
+// If you run this, you'll want to do it via changing to this directory and running
+// `python3 -m http.server`, then navigating to localhost:8000 in your browser.
+
+
 // const SHELLTYPES = ['simple', 'split', 'burst', 'double',
 //                     'mega', 'writer', 'pent', 'comet'];
 const SHELLTYPES = ['mega']
 const GRAVITY = 0.2;
 var PAUSED = true;
 
-var CANVAS_WIDTH = 3000;
-var CANVAS_HEIGHT = 2400;
 var shells = [];
 var stars  = [];
 let skyline;
@@ -14,11 +16,12 @@ let skylineWidth = 1541;
 let skylineHeight = 441;
 
 function preload() {
+    // if you run this without a server, this will fail with a CORS warning
     skyline = loadImage('skyline.png');
-
 }
+
 function setup() {
-    createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+    createCanvas(3000, 2400);
     background(0);
     strokeWeight(1);
     colorMode(HSB);
@@ -45,7 +48,6 @@ function draw() {
     //     text(number, number, 0);
     // }
 
-
     /* Remove the exploded shells and burnt out stars */
     shells = shells.filter(shell => !shell.exploded);
     stars = stars.filter(star => star.brightness > 0);
@@ -58,7 +60,7 @@ function draw() {
         saturation = 0;
     }
     tint(avgHue, 50, avgBrightness + 10)
-    // move left and up by original width and height * 2, then paint at twice that size
+    // move left and up by original width and height * 2, then paint at twice the normal size to fit our canvas
     image(skyline, -skylineWidth, -skylineHeight * 2, skylineWidth * 2, skylineHeight * 2)
 
     /* Draw the shells and stars */
@@ -214,21 +216,8 @@ class Star {
     }
 }
 
-
-function touchMoved() {
-    touchStarted();
-    return false;
-}
-
-function touchStarted() {
-    let speed = createVector(0, 0);
-    let position = createVector(mouseX - width / 2, mouseY - height);
-    let s = new Shell(position, speed);
-    s.explode();
-    return false;
-}
-
 function keyPressed() {
+    console.log(keyCode)
     if (keyCode == 32) { /* Space bar */
         if (PAUSED) {
             PAUSED = false;
@@ -243,7 +232,9 @@ function keyPressed() {
             loop();
         }
         return false;
-    } else if (keyCode == 83) { // `s` key
+    } else if (keyCode == 83) { // `s` key, for save
+        saveCanvas(filename(), 'png');
+    } else if (keyCode == 70) { // `f` key, for firework
         let s = new Shell();
         shells.push(s);
     }
