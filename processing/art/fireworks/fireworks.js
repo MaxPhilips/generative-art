@@ -1,18 +1,28 @@
 // Forked from https://github.com/andrewdcampbell/jsfireworks/blob/master/sketch.js
-const SHELLTYPES = ['simple', 'split', 'burst', 'double',
-                    'mega', 'writer', 'pent', 'comet'];
+// const SHELLTYPES = ['simple', 'split', 'burst', 'double',
+//                     'mega', 'writer', 'pent', 'comet'];
+const SHELLTYPES = ['mega']
 const GRAVITY = 0.2;
 var PAUSED = true;
 
+var CANVAS_WIDTH = 3000;
+var CANVAS_HEIGHT = 2400;
 var shells = [];
 var stars  = [];
-var sounds = [];
+let skyline;
+let skylineWidth = 1541;
+let skylineHeight = 441;
 
+function preload() {
+    skyline = loadImage('skyline.png');
+
+}
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     background(0);
     strokeWeight(1);
     colorMode(HSB);
+    frameRate(60);
 }
 
 /*
@@ -21,12 +31,35 @@ executes the lines of code contained inside its block until the program is
 stopped or noLoop() is called.
 */
 function draw() {
+    // move origin (0, 0) to the bottom middle (halfway across, all the way down)
     translate(width / 2, height);
     background('rgba(0, 0, 0, 0.2)');
+
+    // show x and y axes
+    // fill(255)
+    // for(let i = 0; i < height; i += 50) {
+    //     text(-i.toString(), -width / 2, -i);
+    // }
+    // for(let i = 50; i < width; i += 50) {
+    //     let number = i - (width/2)
+    //     text(number, number, 0);
+    // }
+
 
     /* Remove the exploded shells and burnt out stars */
     shells = shells.filter(shell => !shell.exploded);
     stars = stars.filter(star => star.brightness > 0);
+
+    // tint the image based on the average hue and brightness of the fireworks
+    let avgHue = stars.map(star => star.hue).reduce((a, b) => a + b, 0) / stars.length
+    let avgBrightness = stars.map(star => star.brightness).reduce((a, b) => a + b, 0) / stars.length
+    let saturation = 50;
+    if (avgBrightness < 50) {
+        saturation = 0;
+    }
+    tint(avgHue, 50, avgBrightness + 10)
+    // move left and up by original width and height * 2, then paint at twice that size
+    image(skyline, -skylineWidth, -skylineHeight * 2, skylineWidth * 2, skylineHeight * 2)
 
     /* Draw the shells and stars */
     for (let shell of shells)
@@ -35,7 +68,7 @@ function draw() {
         star.draw();
 
     /* Generate new shell with small probability */
-    if (random() < 0.03) {
+    if (random() < 0.10) {
         let s = new Shell();
         shells.push(s);
     }
@@ -46,9 +79,11 @@ class Shell {
         if (position == undefined)
             position = createVector(int(random(-width / 4, width / 4)), 0);
         if (speed == undefined)
-            speed = createVector(random(-2, 2), -random(11, 16));
+            // -y moves up
+            speed = createVector(random(-2, 2), -random(height / 150, height / 75));
         if (sparkleTrail == undefined)
-            sparkleTrail = random() < 0.5;
+            // sparkletrails make the buildings light up too bright
+            sparkleTrail = false; // random() < 0.5;
         if (type == undefined) {
             let randIndex = floor(random(0, SHELLTYPES.length));
             type = SHELLTYPES[randIndex];
@@ -57,7 +92,7 @@ class Shell {
         this.speed = speed;
         this.sparkleTrail = sparkleTrail;
         this.fuse = random(-3, -1);
-        this.hue = round(random(0, 360));
+        this.hue = round(random(0, 360)); // 201 - 360 are blues and purples, which don't show up well
         this.type = type;
         this.exploded = false;
     }
@@ -80,10 +115,12 @@ class Shell {
             stars.push(s);
         }
 
-        stroke(this.hue + round(random(-10, 10)), random(0, 20), 90);
+        stroke(this.hue + round(random(-10, 10)), random(100, 200), 90);
         point(this.position.x, this.position.y);
 
         this.position.add(this.speed);
+
+        // speed is a large negative y number, which slowly gets smaller. Adding negatives to position moves up.
         this.speed.y = this.speed.y + GRAVITY;
     }
 
@@ -96,7 +133,7 @@ class Shell {
             let starSpd = createVector(this.speed.x + vel * cos(dir),
                                        this.speed.y + vel * sin(dir));
             let hue = this.hue + round(random(-10, 10));
-            let saturation = round(random(0, 40));
+            let saturation = round(random(150, 200));
             let fade = random(fadeMin, fadeMax);
             let star = new Star(this.position.copy(), starSpd, fade, hue, saturation, type);
             stars.push(star);
@@ -196,15 +233,18 @@ function keyPressed() {
         if (PAUSED) {
             PAUSED = false;
             /* Draw a pause symbol in top right corner */
-            strokeWeight(1);
-            fill(255);
-            rect(width/2-30, -height+20, 10, 30);
-            rect(width/2-50, -height+20, 10, 30);
+            // strokeWeight(1);
+            // fill(255);
+            // rect(width/2-30, -height+20, 10, 30);
+            // rect(width/2-50, -height+20, 10, 30);
             noLoop();
         } else {
             PAUSED = true;
             loop();
         }
         return false;
+    } else if (keyCode == 83) { // `s` key
+        let s = new Shell();
+        shells.push(s);
     }
 }
