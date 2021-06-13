@@ -1,5 +1,7 @@
 # generative-art
 
+[GitHub pages](https://maxphilips.github.io/generative-art/).
+
 Generative art created via [processing](https://processing.org/), specifically [p5.js](https://p5js.org/).
 
 ## art/
