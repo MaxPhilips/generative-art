@@ -23,13 +23,17 @@ Contains an artwork
 
 Contains reusable code
 
-### helpers.js
-
-Contains globally useful Javascript. Pulled into each generation client.
-
 ### chaikin.js
 
 Contains some line drawing algorithms
+
+### color.js
+
+Contains some palette generation algorithms
+
+### helpers.js
+
+Contains globally useful Javascript. Pulled into each generation client.
 
 ## scripts/
 
