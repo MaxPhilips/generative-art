@@ -6,11 +6,11 @@ you can view the art on [GitHub pages](https://maxphilips.github.io/generative-a
 
 ## art/
 
-Contains subdirectories that contain art
+contains subdirectories that contain art
 
 ### Subdirectory inside art/
 
-Contains an artwork
+contains an artwork
 
 * rendered `images`
 * `index.html` acting as a generation client
@@ -21,26 +21,20 @@ Contains an artwork
 
 ## lib/
 
-Contains reusable code
-
-### chaikin.js
-
-Contains some line drawing algorithms
-
-### color.js
-
-Contains some palette generation algorithms
-
-### helpers.js
-
-Contains globally useful Javascript. Pulled into each generation client.
+contains reusable code to make art with
 
 ## scripts/
 
-Contains scripts
+contains scripts
 
 ### new_art.rb
 
-Creates a new workspace for a new artwork. Accepts the title you want to set your directory to.
+creates a new artwork. set an optional title with -t or receive an artwork named TEMP.
 
-    ruby scripts/new_art.rb -t title-of-work
+    ruby scripts/new_art.rb -t title_of_work
+
+### name_art.rb
+
+rename the artwork named TEMP to its true title.
+
+    ruby scripts/name_art.rb -t title_of_work
