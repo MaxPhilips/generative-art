@@ -1,8 +1,8 @@
 # generative-art
 
-[GitHub pages](https://maxphilips.github.io/generative-art/).
+generative art created with [processing](https://processing.org/) via [p5.js](https://p5js.org/).
 
-Generative art created via [processing](https://processing.org/), specifically [p5.js](https://p5js.org/).
+you can view the art on [GitHub pages](https://maxphilips.github.io/generative-art/).
 
 ## art/
 
@@ -44,7 +44,3 @@ Contains scripts
 Creates a new workspace for a new artwork. Accepts the title you want to set your directory to.
 
     ruby scripts/new_art.rb -t title-of-work
-
-### update_download_directory.rb
-
-Updates Google Chrome's Preferences JSON to change download directory. Doesn't work.
