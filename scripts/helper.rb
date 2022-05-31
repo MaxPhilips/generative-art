@@ -69,8 +69,10 @@ def file_replace(filename, to_replace, title)
       li_lines << line
     end
 
+    li_lines.map! { |line| line.gsub(to_replace, title) }
+
     li_lines.sort.each do |line|
-      tempfile.puts line.gsub(to_replace, title)
+      tempfile.puts line
     end
 
     # copy last chunk
